@@ -1,2 +1,3 @@
-# coinbase-magento2
-Accept Bitcoin on your Magento2-powered website.
+
+## License
+[Open Source License](LICENSE)
