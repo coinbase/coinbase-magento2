@@ -144,19 +144,17 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $orderId = $order->getIncrementId();
 
         $params = array(
-        'amount' => new Money(
-          $order->getTotalDue(),
-          $order->getBaseCurrencyCode()
-        ),
-        'name'              => 'Order #'.$orderId,
-        'description'       => 'Order #'.$orderId,
-        'metadata'          => array('order_id' => $orderId),
-        'notifications_url' => $this->getNotifyUrl($storeId),
-        'cancel_url'        => $this->getCancelUrl($storeId),
-        'success_url'       => $this->getSuccessUrl($storeId),
-      );
-
-        error_log('Checkout params: '.print_r($params, true));
+            'amount' => new Money(
+                $order->getTotalDue(),
+                $order->getBaseCurrencyCode()
+            ),
+            'name'              => 'Order #'.$orderId,
+            'description'       => 'Order #'.$orderId,
+            'metadata'          => array('order_id' => $orderId),
+            'notifications_url' => $this->getNotifyUrl($storeId),
+            'cancel_url'        => $this->getCancelUrl($storeId),
+            'success_url'       => $this->getSuccessUrl($storeId),
+        );
 
         try {
             $checkout = new Checkout($params);
@@ -166,8 +164,8 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
             $message = print_r($e, true);
             $this->_debug("Coinbase: Error generating checkout code $message");
             $this->_exception->create(
-            ['phrase' => __('There was an error redirecting you to Coinbase. Please select a different payment method.')]
-        );
+                ['phrase' => __('There was an error redirecting you to Coinbase. Please select a different payment method.')]
+            );
         }
 
         $this->_logger->addDebug("Generated Coinbase checkout for order $orderId");
@@ -230,8 +228,8 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $store = $this->_storeManager->getStore($storeId);
 
         return $this->_urlBuilder->getUrl(
-          $path,
-          ['_store' => $store, '_secure' => $secure === null ? $store->isCurrentlySecure() : $secure]
-      );
+            $path,
+            ['_store' => $store, '_secure' => $secure === null ? $store->isCurrentlySecure() : $secure]
+        );
     }
 }
