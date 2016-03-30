@@ -8,6 +8,7 @@
         "magento/module-payment": "100.0.*",
         "magento/module-quote": "100.0.*",
         "magento/framework": "100.0.*",
+        "ext-openssl": "*",
         "coinbase/coinbase": "^2.3"
     },
     "type": "magento2-module",

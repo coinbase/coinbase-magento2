@@ -104,6 +104,8 @@ class Callback extends AppAction
 
             $this->_success();
         } catch (\Exception $e) {
+            $this->_logger->addError("Coinbase: error processing callback");
+            $this->_logger->addError($e->getMessage());
             return $this->_failure();
         }
     }
@@ -174,12 +176,18 @@ class Callback extends AppAction
 
     protected function _loadOrder()
     {
-        // TODO(aianus) check for uuid in metadata and compare to payment information
         $order_id = $this->_coinbase_order->getMetadata()['order_id'];
         $this->_order = $this->_orderFactory->create()->loadByIncrementId($order_id);
 
         if (!$this->_order && $this->_order->getId()) {
             throw new Exception('Could not find Magento order with id $order_id');
+        }
+
+        $callback_replay_token = $this->_coinbase_order->getMetadata()['replay_token'];
+        $replay_token = $this->_order->getPayment()->getAdditionalInformation('replay_token');
+
+        if ($replay_token !== $callback_replay_token) {
+            throw new Exception('Replay tokens did not match');
         }
     }
 

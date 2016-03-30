@@ -143,6 +143,11 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
     {
         $orderId = $order->getIncrementId();
 
+        // Protect against callback replay attacks
+        $replayToken = bin2hex(openssl_random_pseudo_bytes(16));
+        $payment = $order->getPayment();
+        $payment->setAdditionalInformation("replay_token", $replayToken)->save();
+
         $params = array(
             'amount' => new Money(
                 $order->getTotalDue(),
@@ -150,7 +155,10 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
             ),
             'name'              => 'Order #'.$orderId,
             'description'       => 'Order #'.$orderId,
-            'metadata'          => array('order_id' => $orderId),
+            'metadata'          => array(
+                'order_id'     => $orderId
+                'replay_token' => $replayToken
+            ),
             'notifications_url' => $this->getNotifyUrl($storeId),
             'cancel_url'        => $this->getCancelUrl($storeId),
             'success_url'       => $this->getSuccessUrl($storeId),
