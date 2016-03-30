@@ -138,8 +138,7 @@ class Callback extends AppAction
     protected function _registerMispayment()
     {
         $coinbase_order_code = $this->_coinbase_order->getCode();
-
-        $this->_order->setState(\Magento\Sales\Model\Order::STATE_HOLDED, true);
+        $this->_order->hold()->save();
         $this->_createIpnComment("Coinbase Order $coinbase_order_code mispaid; manual intervention required", true);
         $this->_order->save();
     }
