@@ -156,7 +156,7 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
             'name'              => 'Order #'.$orderId,
             'description'       => 'Order #'.$orderId,
             'metadata'          => array(
-                'order_id'     => $orderId
+                'order_id'     => $orderId,
                 'replay_token' => $replayToken
             ),
             'notifications_url' => $this->getNotifyUrl($storeId),
@@ -177,6 +177,9 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
         }
 
         $this->_logger->addDebug("Generated Coinbase checkout for order $orderId");
+
+        // TODO(aianus) remove
+        $this->_logger->addError("Replay token was $replayToken");
 
         return 'https://www.coinbase.com/checkouts/'.$code;
     }

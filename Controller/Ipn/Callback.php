@@ -186,6 +186,9 @@ class Callback extends AppAction
         $callback_replay_token = $this->_coinbase_order->getMetadata()['replay_token'];
         $replay_token = $this->_order->getPayment()->getAdditionalInformation('replay_token');
 
+        // TODO(aianus) remove
+        $this->_logger->addError("Replay tokens were $replay_token, $callback_replay_token");
+
         if ($replay_token !== $callback_replay_token) {
             throw new Exception('Replay tokens did not match');
         }
