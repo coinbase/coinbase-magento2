@@ -16,27 +16,27 @@ The plugin has been submitted to the Magento Connect Marketplace and is pending 
 1. Navigate to the root of your Magento2 installation.
 1. Add the following entry to ./composer.json under "repositories"
 
-```json
-{
-    "type": "vcs",
-    "url": "https://github.com/coinbase/coinbase-magento2"
-}
-```
+  ```json
+  {
+      "type": "vcs",
+      "url": "https://github.com/coinbase/coinbase-magento2"
+  }
+  ```
 
 1. Add the following line to ./composer.json under "require"
 
-```json
-"coinbase/module-coinbase-magento2-gateway": "~1.0",
-```
+  ```json
+  "coinbase/module-coinbase-magento2-gateway": "~1.0",
+  ```
 
 1. Run the following command:
 
-```bash
-composer update &&\
-  composer install &&\
-  bin/magento setup:upgrade &&\
-  bin/magento setup:static-content:deploy
-```
+  ```bash
+  composer update &&\
+    composer install &&\
+    bin/magento setup:upgrade &&\
+    bin/magento setup:static-content:deploy
+  ```
 
 ## Set-up
 
